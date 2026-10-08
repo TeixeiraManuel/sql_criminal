@@ -60,3 +60,4 @@ Reinicia o backend; o caso aparece sozinho. Acrescenta um teste em `CaseApiTests
 - Contas de utilizador (Spring Security + JWT) e XP guardado numa base PostgreSQL em vez do `localStorage`
 - Editor com realce de sintaxe (CodeMirror 6)
 - Ranking de detetives, modo "treino livre", casos gerados por professores
+# sql_criminal
