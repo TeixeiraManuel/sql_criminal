@@ -1,0 +1,189 @@
+<a class="back" routerLink="/casos">← Todos os casos</a>
+
+@if (state().loading) {
+  <p class="muted">A abrir o dossier…</p>
+} @else if (loadError()) {
+  <div class="alert alert-error" role="alert">{{ loadError() }}</div>
+} @else if (detail(); as c) {
+  @if (!progress.isUnlocked(c)) {
+    <section class="locked">
+      <h1>🔒 {{ c.title }}</h1>
+      <p>Este caso exige uma licença de {{ c.requiredXp }} XP. Tem {{ progress.xp() }} XP — resolva casos mais simples primeiro.</p>
+      <a class="btn btn-primary" routerLink="/casos">Voltar aos casos</a>
+    </section>
+  } @else {
+    <header class="case-header">
+      <div>
+        <span class="chip">{{ labels[c.difficulty] }}</span>
+        <span class="chip xp-chip">{{ c.xp }} XP</span>
+        @if (solved()) {
+          <span class="chip solved-chip">Resolvido</span>
+        }
+      </div>
+      <h1>{{ c.title }}</h1>
+    </header>
+
+    <div class="workspace">
+      <!-- Dossier: história, esquema e notas -->
+      <aside class="dossier">
+        <div class="tabs" role="tablist">
+          <button role="tab" [class.active]="tab() === 'caso'" [attr.aria-selected]="tab() === 'caso'" (click)="tab.set('caso')">Caso</button>
+          <button role="tab" [class.active]="tab() === 'esquema'" [attr.aria-selected]="tab() === 'esquema'" (click)="tab.set('esquema')">Esquema</button>
+          <button role="tab" [class.active]="tab() === 'notas'" [attr.aria-selected]="tab() === 'notas'" (click)="tab.set('notas')">Notas</button>
+        </div>
+
+        <div class="tab-body">
+          @switch (tab()) {
+            @case ('caso') {
+              <div class="story">
+                @for (p of c.story; track $index) {
+                  <p>{{ p }}</p>
+                }
+              </div>
+
+              <h3>Objetivos</h3>
+              <ol class="objectives">
+                @for (o of c.objectives; track $index) {
+                  <li>{{ o }}</li>
+                }
+              </ol>
+
+              <h3>Pistas</h3>
+              @if (hintsShown() === 0) {
+                <p class="muted small">Encravado? Revele uma pista de cada vez.</p>
+              }
+              <ol class="hints">
+                @for (h of c.hints.slice(0, hintsShown()); track $index) {
+                  <li>{{ h }}</li>
+                }
+              </ol>
+              @if (hintsShown() < c.hints.length) {
+                <button class="btn btn-ghost" (click)="revealHint()">
+                  Revelar pista {{ hintsShown() + 1 }} de {{ c.hints.length }}
+                </button>
+              }
+            }
+            @case ('esquema') {
+              <p class="muted small">Clique num nome para o inserir no editor, ou em "amostra" para ver as primeiras linhas.</p>
+              @for (t of c.schema; track t.name) {
+                <div class="table-card">
+                  <div class="table-head">
+                    <button class="link" (click)="insert(t.name)">{{ t.name }}</button>
+                    <button class="btn btn-ghost tiny" (click)="preview(t.name)">amostra</button>
+                  </div>
+                  <ul>
+                    @for (col of t.columns; track col.name) {
+                      <li>
+                        <button class="link col" (click)="insert(col.name)">{{ col.name }}</button>
+                        <span class="type">{{ col.type }}</span>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+            }
+            @case ('notas') {
+              <label class="muted small" for="notes">As notas ficam guardadas neste navegador.</label>
+              <textarea
+                id="notes"
+                class="notes"
+                rows="16"
+                placeholder="Suspeitos, horas, matrículas…"
+                [ngModel]="notes()"
+                (ngModelChange)="updateNotes($event)"
+              ></textarea>
+            }
+          }
+        </div>
+      </aside>
+
+      <!-- Bancada: editor, resultados e acusação -->
+      <section class="bench">
+        <div class="editor-box">
+          <textarea
+            #editor
+            class="editor"
+            spellcheck="false"
+            autocapitalize="off"
+            aria-label="Editor SQL"
+            [ngModel]="sql()"
+            (ngModelChange)="updateSql($event)"
+            (keydown)="onEditorKeydown($event)"
+          ></textarea>
+          <div class="editor-bar">
+            <span class="muted small"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> para executar</span>
+            <button class="btn btn-primary" (click)="run()" [disabled]="running()">
+              {{ running() ? 'A executar…' : '▶ Executar' }}
+            </button>
+          </div>
+        </div>
+
+        @if (queryError()) {
+          <div class="alert alert-error" role="alert">{{ queryError() }}</div>
+        }
+
+        @if (result(); as r) {
+          <div class="results">
+            <div class="results-meta muted small">
+              {{ r.rows.length }} {{ r.rows.length === 1 ? 'linha' : 'linhas' }} · {{ r.elapsedMs }} ms
+              @if (r.truncated) {
+                · <span class="warn">resultado cortado — use WHERE ou LIMIT</span>
+              }
+            </div>
+            @if (r.rows.length === 0) {
+              <p class="muted empty">Nenhuma linha encontrada. Talvez a pista esteja escrita de outra forma?</p>
+            } @else {
+              <div class="table-scroll">
+                <table>
+                  <thead>
+                    <tr>
+                      @for (col of r.columns; track $index) {
+                        <th>{{ col }}</th>
+                      }
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (row of r.rows; track $index) {
+                      <tr>
+                        @for (cell of row; track $index) {
+                          @if (cell === null) {
+                            <td class="null">NULL</td>
+                          } @else {
+                            <td [class.num]="typeof cell === 'number'" [class.short]="formatCell(cell).length < 24">{{ formatCell(cell) }}</td>
+                          }
+                        }
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+        }
+
+        <form class="accuse" (ngSubmit)="accuse()">
+          <h3>Fazer a acusação</h3>
+          <div class="accuse-row">
+            <input
+              type="text"
+              name="answer"
+              autocomplete="off"
+              [placeholder]="c.answerLabel"
+              [ngModel]="answer()"
+              (ngModelChange)="answer.set($event)"
+            />
+            <button class="btn btn-primary" type="submit" [disabled]="solving() || !answer().trim()">Acusar</button>
+          </div>
+          @if (verdict(); as v) {
+            <div class="alert" [class.alert-success]="v.correct" [class.alert-error]="!v.correct" role="status">
+              @if (v.correct) {
+                <strong>+{{ v.xp }} XP</strong>
+              }
+              {{ v.message }}
+            </div>
+          }
+        </form>
+      </section>
+    </div>
+  }
+}

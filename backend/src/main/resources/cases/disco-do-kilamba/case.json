@@ -1,0 +1,27 @@
+{
+  "id": "disco-do-kilamba",
+  "order": 2,
+  "title": "O Disco do Kilamba",
+  "summary": "O único exemplar autografado de um disco de semba de 1972 foi roubado da Kilamba Records. Junte os testemunhos e siga o carro amarelo.",
+  "difficulty": "INICIANTE",
+  "xp": 100,
+  "requiredXp": 0,
+  "story": [
+    "A Kilamba Records, na Centralidade do Kilamba, guardava numa vitrine o seu tesouro: o disco \"Semba da Madrugada\", de 1972, autografado por todos os membros do conjunto Os Kotas do Ritmo.",
+    "Na tarde de 9 de julho de 2025 a vitrine apareceu vazia. Havia clientes na loja e alguns deram o seu testemunho. Desta vez as pistas estão espalhadas por várias tabelas — vai precisar de as juntar."
+  ],
+  "objectives": [
+    "Encontre o crime ocorrido na Kilamba Records a 09/07/2025.",
+    "Leia os testemunhos ligados a esse crime.",
+    "Filtre os suspeitos com as pistas das testemunhas e confirme com os interrogatórios."
+  ],
+  "hints": [
+    "A tabela witnesses tem a coluna crime_scene_id, que aponta para crime_scene.id.",
+    "Use JOIN para ver testemunhos e crime juntos: SELECT w.name, w.clue FROM witnesses w JOIN crime_scene c ON w.crime_scene_id = c.id WHERE ...",
+    "Matrículas que começam por LD-27: car_plate LIKE 'LD-27%'.",
+    "Junte suspects e interviews com JOIN interviews i ON i.suspect_id = s.id para ler só o que interessa."
+  ],
+  "answerLabel": "Nome do ladrão",
+  "answers": ["Leonel Fragoso"],
+  "solution": "Caso encerrado! Leonel Fragoso tinha vendido o disco a um colecionador de Benguela antes mesmo de o roubar. O \"Semba da Madrugada\" voltou à vitrine — agora com alarme."
+}

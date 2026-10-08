@@ -1,0 +1,111 @@
+.intro {
+  max-width: 720px;
+  margin-bottom: 2.5rem;
+}
+
+.intro h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.stats {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.stats strong {
+  color: var(--accent);
+}
+
+.error {
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 1rem;
+  border-radius: var(--radius);
+}
+
+.group {
+  margin-bottom: 2.5rem;
+}
+
+.group-title {
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.group-title::after {
+  content: '';
+  flex: 1;
+  border-top: 1px dashed var(--border);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 1.25rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  position: relative;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.card:not(.locked):hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.card header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.card h3 {
+  font-size: 1.3rem;
+}
+
+.card p {
+  color: var(--ink-muted);
+  flex: 1;
+  margin: 0 0 1.2rem;
+}
+
+.card .xp {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+}
+
+.card.locked {
+  opacity: 0.6;
+}
+
+.status-solved {
+  color: var(--success);
+}
+
+.status-locked {
+  color: var(--danger);
+}
+
+.status-open {
+  color: var(--accent);
+}
+
+.lock-note {
+  font-size: 0.85rem;
+}

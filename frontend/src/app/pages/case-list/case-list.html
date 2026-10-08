@@ -1,0 +1,52 @@
+<section class="intro">
+  <h1>Arquivos de Caso</h1>
+  <p class="muted">
+    Cada caso é uma base de dados cheia de pistas. Escreva consultas SQL, cruze as provas e acuse o culpado.
+    Casos resolvidos dão XP — e XP desbloqueia licenças para casos mais difíceis.
+  </p>
+  <p class="stats">
+    <span><strong>{{ progress.xp() }}</strong> XP</span>
+    <span><strong>{{ progress.solvedCount() }}</strong> / {{ state()?.cases?.length ?? 0 }} casos resolvidos</span>
+  </p>
+</section>
+
+@if (!state()) {
+  <p class="muted">A abrir o arquivo…</p>
+} @else if (state()!.error) {
+  <div class="error" role="alert">{{ state()!.error }}</div>
+}
+
+@for (group of groups(); track group.difficulty) {
+  <section class="group">
+    <h2 class="group-title" [attr.data-level]="group.difficulty">{{ labels[group.difficulty] }}</h2>
+    <div class="grid">
+      @for (c of group.cases; track c.id) {
+        @let unlocked = progress.isUnlocked(c);
+        @let solved = progress.isSolved(c.id);
+        <article class="card" [class.locked]="!unlocked" [class.solved]="solved">
+          <header>
+            @if (solved) {
+              <span class="chip status-solved">Resolvido</span>
+            } @else if (!unlocked) {
+              <span class="chip status-locked">Licença necessária</span>
+            } @else {
+              <span class="chip status-open">Em aberto</span>
+            }
+            <span class="xp">{{ c.xp }} XP</span>
+          </header>
+          <h3>{{ c.title }}</h3>
+          <p>{{ c.summary }}</p>
+          <footer>
+            @if (unlocked) {
+              <a class="btn" [class.btn-primary]="!solved" [routerLink]="['/casos', c.id]">
+                {{ solved ? 'Rever caso' : 'Investigar' }} →
+              </a>
+            } @else {
+              <span class="muted lock-note">🔒 Precisa de {{ c.requiredXp }} XP (faltam {{ c.requiredXp - progress.xp() }})</span>
+            }
+          </footer>
+        </article>
+      }
+    </div>
+  </section>
+}

@@ -1,0 +1,30 @@
+<section class="intro">
+  <h1>Manual do Detetive</h1>
+  <p class="muted">
+    Cada caso tem a sua própria base de dados. Leia a história no separador <strong>Caso</strong>, consulte as tabelas no
+    separador <strong>Esquema</strong> e escreva consultas no editor. Quando tiver a certeza, faça a acusação.
+    Só são permitidas consultas <code>SELECT</code> — um detetive observa, não altera provas.
+  </p>
+</section>
+
+<div class="grid">
+  @for (t of topics; track t.title) {
+    <article class="topic">
+      <h2>{{ t.title }}</h2>
+      <p class="muted">{{ t.text }}</p>
+      <pre>{{ t.example }}</pre>
+    </article>
+  }
+</div>
+
+<section class="danger-zone">
+  <h2>Progresso</h2>
+  <p class="muted">O seu XP ({{ progress.xp() }}) fica guardado neste navegador.</p>
+  @if (confirmingReset()) {
+    <p>Tem a certeza? Perderá todos os casos resolvidos.</p>
+    <button class="btn danger" (click)="reset()">Sim, apagar progresso</button>
+    <button class="btn btn-ghost" (click)="confirmingReset.set(false)">Cancelar</button>
+  } @else {
+    <button class="btn" (click)="confirmingReset.set(true)">Recomeçar do zero</button>
+  }
+</section>

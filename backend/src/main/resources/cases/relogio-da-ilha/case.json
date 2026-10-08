@@ -1,0 +1,27 @@
+{
+  "id": "relogio-da-ilha",
+  "order": 1,
+  "title": "O Relógio da Ilha",
+  "summary": "Um relógio de ouro desapareceu de uma mesa no Restaurante Cais da Ilha. Encontre o ladrão antes que ele atravesse a ponte.",
+  "difficulty": "INICIANTE",
+  "xp": 50,
+  "requiredXp": 0,
+  "story": [
+    "Noite de 14 de março de 2025. O empresário Fernando Kiala jantava no Restaurante Cais da Ilha, na Ilha de Luanda, quando reparou que o seu relógio de ouro já não estava em cima da mesa.",
+    "A esquadra registou a ocorrência e recolheu descrições de várias pessoas que andavam pela zona. Tudo está na base de dados. Comece pela cena do crime — os detalhes fazem toda a diferença."
+  ],
+  "objectives": [
+    "Encontre o registo do crime ocorrido na Ilha de Luanda a 14/03/2025.",
+    "Use a descrição da testemunha para filtrar a lista de suspeitos.",
+    "Leia os interrogatórios e descubra quem levou o relógio."
+  ],
+  "hints": [
+    "Comece por SELECT * FROM crime_scene; para ver o formato dos dados.",
+    "Datas comparam-se como texto: WHERE date = '2025-03-14'. Para procurar parte de um texto use LIKE '%Ilha%'.",
+    "Combine condições com AND: WHERE attire LIKE '%panamá%' AND distinguishing_mark LIKE '%âncora no pulso%'.",
+    "Os interrogatórios estão ligados aos suspeitos pela coluna suspect_id."
+  ],
+  "answerLabel": "Nome do ladrão",
+  "answers": ["Paulo Sebastião"],
+  "solution": "Caso encerrado! Paulo Sebastião escondeu o relógio no forro do chapéu panamá. Fernando Kiala já tem o relógio de volta — e você ganhou o seu primeiro distintivo."
+}

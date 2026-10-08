@@ -1,0 +1,55 @@
+.intro {
+  max-width: 760px;
+  margin-bottom: 2rem;
+}
+
+.intro h1 {
+  font-size: clamp(2rem, 5vw, 2.8rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 1.25rem;
+}
+
+.topic {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+}
+
+.topic h2 {
+  font-size: 1.15rem;
+  color: var(--accent);
+}
+
+pre {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 0.8rem 1rem;
+  overflow-x: auto;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.danger-zone {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed var(--border);
+}
+
+.danger-zone h2 {
+  font-size: 1.2rem;
+}
+
+.danger-zone .btn {
+  margin-right: 0.5rem;
+}
+
+.danger {
+  border-color: var(--danger);
+  color: var(--danger);
+}

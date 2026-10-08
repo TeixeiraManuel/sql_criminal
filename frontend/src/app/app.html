@@ -1,0 +1,21 @@
+<header class="topbar">
+  <a class="brand" routerLink="/casos">
+    <span class="brand-mark" aria-hidden="true">⌕</span>
+    SQL Criminal
+  </a>
+  <nav>
+    <a routerLink="/casos" routerLinkActive="active">Casos</a>
+    <a routerLink="/ajuda" routerLinkActive="active">Ajuda</a>
+  </nav>
+  <div class="xp" title="Experiência acumulada">
+    <strong>{{ progress.xp() }}</strong> XP
+  </div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
+
+<footer class="muted">
+  Feito para aprender SQL a resolver crimes · Angular + Spring Boot
+</footer>

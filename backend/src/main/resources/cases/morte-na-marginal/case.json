@@ -1,0 +1,28 @@
+{
+  "id": "morte-na-marginal",
+  "order": 3,
+  "title": "Morte na Marginal",
+  "summary": "Um corpo apareceu junto ao pontão da Marina da Baía de Luanda. Duas pessoas foram vistas por perto. Encontre o assassino e leve-o à justiça.",
+  "difficulty": "INTERMEDIARIO",
+  "xp": 200,
+  "requiredXp": 150,
+  "story": [
+    "Madrugada de 21 de agosto de 2025. Um segurança da Marina da Baía de Luanda encontrou o corpo de um homem junto ao pontão C. O registo da ocorrência foi feito com a data da noite anterior, 20 de agosto.",
+    "O relatório menciona duas pessoas vistas no local, mas não diz os nomes completos. Vai ter de as encontrar, ouvir o que disseram e seguir o rasto até um hotel da Marginal. Os registos de vigilância do hotel podem decidir o caso."
+  ],
+  "objectives": [
+    "Encontre o relatório da cena do crime na Marina da Baía a 20/08/2025.",
+    "Identifique as duas testemunhas na tabela person e leia os seus depoimentos.",
+    "Siga as pistas pelos check-ins e registos de vigilância do hotel.",
+    "Confirme o culpado através das confissões."
+  ],
+  "hints": [
+    "Endereços e nomes podem ser procurados com LIKE: address LIKE '%Rua dos Pescadores%'.",
+    "witness_statements liga crime_scene (crime_scene_id) e person (person_id). Junte as três tabelas.",
+    "Para quartos terminados em 07: room_number LIKE '%07'.",
+    "surveillance_records liga-se a hotel_checkins pela coluna hotel_checkin_id. Depois, procure as confessions dessa pessoa."
+  ],
+  "answerLabel": "Nome do assassino",
+  "answers": ["Kelson Tavares"],
+  "solution": "Caso encerrado! Kelson Tavares devia uma fortuna à vítima e marcou um encontro na marina para \"resolver\" a dívida. O casaco ensanguentado foi recuperado do contentor do Hotel Baía. Excelente trabalho, detetive."
+}

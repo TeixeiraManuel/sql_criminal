@@ -1,0 +1,30 @@
+{
+  "id": "baile-do-miramar",
+  "order": 4,
+  "title": "O Baile de Máscaras do Miramar",
+  "summary": "Leopoldo Matias foi assassinado na biblioteca durante um baile de máscaras. O assassino não agiu sozinho — siga o dinheiro.",
+  "difficulty": "AVANCADO",
+  "xp": 300,
+  "requiredXp": 350,
+  "story": [
+    "31 de outubro de 2025. O Palácio do Miramar recebeu o baile de máscaras mais exclusivo do ano. Às 23h50, o magnata do petróleo Leopoldo Matias foi encontrado sem vida na biblioteca.",
+    "Todos os convidados usavam máscara, por isso ninguém viu um rosto. Mas a fechadura electrónica da biblioteca regista cada entrada e saída, o banco colaborou com a investigação e as operadoras entregaram os registos de chamadas.",
+    "Há quem diga que o assassino foi pago para o fazer. Descubra quem entrou na biblioteca com a vítima — e quem recebeu dinheiro para isso."
+  ],
+  "objectives": [
+    "Leia o relatório e os depoimentos sobre o baile (31/10/2025).",
+    "Descubra quem esteve na biblioteca perto da hora do crime.",
+    "Cruze com as máscaras usadas pelos convidados.",
+    "Siga o dinheiro: procure transferências repetidas e partidas em várias parcelas.",
+    "Identifique o assassino."
+  ],
+  "hints": [
+    "Para timestamps use intervalos: entry_time BETWEEN '2025-10-31 23:00:00' AND '2025-10-31 23:50:00'.",
+    "Pode cruzar duas listas com JOIN ou com uma subconsulta: WHERE person_id IN (SELECT person_id FROM ...).",
+    "Para encontrar pagamentos divididos: GROUP BY from_person_id, to_person_id HAVING COUNT(*) >= 3, com SUM(amount).",
+    "Os registos de chamadas (phone_calls) da noite do baile confirmam quem falou com quem."
+  ],
+  "answerLabel": "Nome do assassino",
+  "answers": ["Óscar Lumbo"],
+  "solution": "Caso encerrado! Óscar Lumbo, segurança privado, recebeu 5 milhões de kwanzas em quatro transferências do advogado Augusto Feijó — que herdaria o controlo da empresa de Leopoldo Matias. Feijó ligou-lhe às 23h41 para confirmar o serviço. Os dois foram detidos. Trabalho de mestre, detetive."
+}
